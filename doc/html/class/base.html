@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Base Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: reflection/variables.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Variables::Base</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Type&gt;
+    class Base;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_variable: true</div>
+            <div>is_construct: false</div>
+            <div>is_container: false</div>
+            <div>is_feature: false</div>
+            <div>is_polymorphic: false</div>
+            <div>is_meta_operator: false</div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                A helper class for defining variable types
+            </div>
+        </div>
+        <br>
+        <div>
+            <table>
+                <thead><th colspan="2">Aliases</th></thead>
+                <tbody>
+                    <tr><td><a href="../alias/base_variable_type.html">Variable_Type</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <table>
+                <thead><th colspan="2">Methods</th></thead>
+                <tbody>
+                    <tr><td><a href="../function/base_ctor.html">Constructor</a></td></tr>
+                    <tr><td><a href="../function/base_assignment_operator.html">operator=</a></td></tr>
+                    <tr><td><a href="../function/base_variable.html">Variable</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <table>
+                <thead><th colspan="2">Variables</th></thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;reflection/variables.hpp&gt;
+    
+    namespace My_Variables
+    {
+      using namespace ::Slate::Variables;
+      using My_Int_Variable = class : public Base&lt;int&gt;
+      {
+      public:
+        Variable_Type& My_Int()
+        {
+          return Variable();
+        }
+        Variable_Type const& My_Int() const
+        {
+          return Variable();
+        }
+      };
+    }
+            </code></pre>
+        </div>
+    </body>
+</html>

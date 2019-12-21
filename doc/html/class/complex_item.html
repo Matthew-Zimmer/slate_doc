@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Complex_Item Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: harpoon/Process.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Harpoon::Complex_Item</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename ... Types&gt;
+    class Complex_Item;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_construct: false</div>
+            <div>is_container: false</div>
+            <div>is_feature: false</div>
+            <div>is_polymorphic: false</div>
+            <div>is_meta_operator: false</div>
+            <div>is_template: true</div>
+            <div>is_variable: false</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Item type for processes that have multiple input/output processes
+            </div>
+        </div>
+        <br>
+        <div>
+            <table>
+                <thead><th colspan="2">Aliases</th></thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <table>
+                <thead><th colspan="2">Methods</th></thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <table>
+                <thead><th colspan="2">Variables</th></thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    #include &lt;harpoon/process.hpp&gt;
+    using namespace Slate::harpoon;
+    class P0 {};
+    class P1 {};
+    class V0 {};
+    class V1 {};
+    
+    using My_Complex_Item = Complex_Item&lt;Wrap&lt;P0, V0&gt;, Wrap&lt;P1, V1&gt;&gt;;
+            </code></pre>
+        </div>
+    </body>
+</html>

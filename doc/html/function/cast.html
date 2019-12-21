@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Function Cast Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: meta/meta.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Meta::Cast</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Convert, typename Type&gt;
+    Convert& Cast(Type& t);
+    
+    template &lt;typename Convert, typename ... Steps, typename Type&gt;
+    auto Cast(Type& t) -&gt; std::enable_if_t&lt;sizeof...(Steps) != 0, Convert&&gt;;
+    
+    template &lt;typename Convert, typename Type&gt;
+    Convert const& Cast(Type const& t);
+    
+    template &lt;typename Convert, typename ... Steps, typename Type&gt;
+    auto Cast(Type const& t) -&gt; std::enable_if_t&lt;sizeof...(Steps) != 0, Convert const&&gt;;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Helper function for converting reflected types to there components and vice-versa
+            </div>
+        </div>
+        <div>
+            <p>Preconditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <p>Post Conditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <div>t - the object to be converted</div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    #include &lt;meta/meta.hpp&gt;
+    #include &lt;reflection/reflection.hpp&gt;
+    #include &lt;reflection/variables.hpp&gt;
+    
+    using Slate::Meta::Cast;
+    using namespace Slate::Reflection;
+    
+    template &lt;typename Type&gt;
+    class F0 {};
+    
+    using V0 = Slate::Variables::Base&lt;int&gt;;
+    
+    class My_Class : public Is&lt;My_Class, Variables&lt;V0&gt;, Features&lt;F0&gt;&gt; {};
+    
+    //This code assumes that F0&lt;Type&gt; is actually a Type in 
+    //the original scope and that Type also has V0 as a variable
+    template &lt;typename Type&gt;
+    int f(F0&lt;Type&gt; const& f)
+    {
+      return Cast&lt;V0, Type&gt;(f).Variable();
+    }
+    
+    int main()
+    {
+      My_Class c;
+      return f(c);
+    }
+            </code></pre>
+        </div>
+    </body>
+</html>

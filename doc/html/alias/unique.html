@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Unique Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: meta/meta.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Meta::Unique</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename ... Type&gt;
+    using Unique;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Results in a meta container of unique elements
+            </div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;iostream&gt;
+    include &lt;meta/meta.hpp&gt;
+    
+    using Slate::Meta::Wrap;
+    using Slate::Meta::Unique;
+    
+    class A
+    {};
+    
+    int main()
+    {
+      //formats bools as true / false
+      std::cout &lt;&lt; std::boolalpha &lt;&lt; std::is_same_v&lt;Unique&lt;Wrap&lt;int, double, A, double, A, int, int&gt;&gt;, Wrap&lt;int, double, A&gt;&gt; &lt;&lt; std::endl;
+    }
+            </code></pre>
+        </div>
+        <br>
+        <div>
+            <p>Output</p>
+            <pre><code class="language-c++">
+    true
+            </code></pre>
+        </div>
+    </body>
+</html>

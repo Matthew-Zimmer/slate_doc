@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Use_If Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: meta/meta.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Meta::Use_If</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;bool Condition, typename True_Type&gt;
+    using Use_If;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Will conditionally be either True_Type if Condition is true else Meta::Wrap<>
+            </div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;iostream&gt;
+    include &lt;meta/meta.hpp&gt;
+    
+    using Slate::Meta::Wrap;
+    using Slate::Meta::Use_If;
+    
+    int main()
+    {
+      //formats bools as true / false
+      std::cout &lt;&lt; std::boolalpha &lt;&lt; std::is_same_v&lt;Use_If&lt;true, int&gt;, int&gt; &lt;&lt; std::endl;
+      std::cout &lt;&lt; std::boolalpha &lt;&lt; std::is_same_v&lt;Use_If&lt;false, int&gt;, Wrap&lt;&gt;&gt; &lt;&lt; std::endl;
+    }
+            </code></pre>
+        </div>
+        <br>
+        <div>
+            <p>Output</p>
+            <pre><code class="language-c++">
+    true
+    true
+            </code></pre>
+        </div>
+    </body>
+</html>

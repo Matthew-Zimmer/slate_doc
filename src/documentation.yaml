@@ -1,0 +1,2041 @@
+- name: Convert
+  decl: >-
+    template <typename Type, template <typename...> typename Container =
+    Slate::Meta::Wrap>
+
+    using Convert;
+  abstract: Converts a container of types from C1 to C2
+  template_parameters:
+    - - Type
+      - any container type to convert from
+    - - Container
+      - any container type to convert to
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Convert;
+
+
+    template <typename ... Types>
+
+    class My_Container 
+
+    {};
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Convert<Wrap<int, double>, My_Container>, My_Container<int, double>> << std::endl;
+    }
+  output: "true"
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+  is_template: true
+  doc_folder: alias
+  type: alias
+- name: Unwrap
+  decl: |-
+    template <typename Type>
+    using Unwrap;
+  abstract: Extracts the first element of a meta container
+  template_parameters:
+    - - Type
+      - any Meta::Wrap container that contains at least 1 element
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Unwrap;
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Unwrap<Wrap<int, double>>, int> << std::endl;
+    }
+  output: "true"
+  doc_folder: alias
+  type: alias
+  is_template: true
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+- name: Unwrap_At
+  decl: |-
+    template <typename Type, std::size_t Index>
+    using Unwrap_At;
+  abstract: Extracts the Index'th element of a meta container
+  template_parameters:
+    - - Type
+      - any Meta::Wrap container that contains at least 1 element
+    - - Index
+      - the index to unwrap at
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Unwrap_At;
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Unwrap_At<Wrap<int, double>, 2>, double> << std::endl;
+    }
+  output: "true"
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+  is_template: true
+  doc_folder: alias
+  type: alias
+- name: Join
+  decl: |-
+    template <typename ... Types>
+    using Join;
+  abstract: Joins meta containers together
+  template_parameters:
+    - - Types
+      - any number of Meta::Wrap containers
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Join;
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Join<Wrap<int>, Wrap<double>>, Wrap<int, double>> << std::endl;
+    }
+  output: "true"
+  doc_folder: alias
+  type: alias
+  is_template: true
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+- name: Use_If
+  decl: |-
+    template <bool Condition, typename True_Type>
+    using Use_If;
+  abstract: Will conditionally be either True_Type if Condition is true else Meta::Wrap<>
+  template_parameters:
+    - - Condition
+      - condition to be checked
+    - - True_Type
+      - the type if the condition is true
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Use_If;
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Use_If<true, int>, int> << std::endl;
+      std::cout << std::boolalpha << std::is_same_v<Use_If<false, int>, Wrap<>> << std::endl;
+    }
+  output: |-
+    true
+    true
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+  is_template: true
+  doc_folder: alias
+  type: alias
+- name: For_Each
+  decl: |-
+    template <typename Container, template <typename> typename Operation>
+    using For_Each;
+  abstract: Will apply Operation on each element in Container and result in the the new
+    container
+  template_parameters:
+    - - Container
+      - any Meta::Wrap container
+    - - Operation
+      - any meta operator type
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Use_If;
+
+    using Slate::Meta::For_Each;
+
+
+    template <typename Type_>
+
+    class My_Operation
+
+    {
+
+    public:
+      //                 It is important to wrap the Type \/
+      using Type = Use_If<std::is_fundamental_v<Type_>, Wrap<Type_>>;
+    }
+
+
+    class A
+
+    {};
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<For_Each<Wrap<int, double, A>, My_Operation>, Wrap<int, double>> << std::endl;
+    }
+  output: "true"
+  doc_folder: alias
+  type: alias
+  is_template: true
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+- name: Unique
+  decl: |-
+    template <typename ... Type>
+    using Unique;
+  abstract: Results in a meta container of unique elements
+  template_parameters:
+    - - Types
+      - any number of Meta::Wrap containers
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Unique;
+
+
+    class A
+
+    {};
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Unique<Wrap<int, double, A, double, A, int, int>>, Wrap<int, double, A>> << std::endl;
+    }
+  output: "true"
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+  is_template: true
+  doc_folder: alias
+  type: alias
+- name: Return_Type
+  decl: |-
+    template <typename Type>
+    using Return_Type;
+  abstract: Results in the return type of a function pointer
+  template_parameters:
+    - - Type
+      - any function pointer
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Return_Type;
+
+
+    int f()
+
+    {}
+
+
+    class A
+
+    {
+
+    public: 
+      double g() const
+      {}
+    };
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Return_Type<decltype(&f)>, int> << std::endl;
+      std::cout << std::boolalpha << std::is_same_v<Return_Type<decltype(&A::g)>, double> << std::endl;
+    }
+  output: |-
+    true
+    true
+  doc_folder: alias
+  type: alias
+  is_template: true
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+- name: Object_Type
+  decl: |-
+    template <typename Type>
+    using Object_Type;
+  abstract: Results in the object type of a function pointer
+  template_parameters:
+    - - Type
+      - any method pointer
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Object_Type;
+
+
+    class A
+
+    {
+
+    public: 
+      double g() const
+      {}
+    };
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Object_Type<decltype(&A::g)>, A const> << std::endl;
+    }
+  output: "true"
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+  is_template: true
+  doc_folder: alias
+  type: alias
+- name: Args
+  decl: |-
+    template <typename Type>
+    using Args;
+  abstract: Results in a meta container of the argument types of a function pointer
+  template_parameters:
+    - - Type
+      - any function pointer
+  example: >-
+    include <iostream>
+
+    include <meta/meta.hpp>
+
+
+    using Slate::Meta::Wrap;
+
+    using Slate::Meta::Args;
+
+
+    int f(int x, double h)
+
+    {}
+
+
+    class A
+
+    {
+
+    public: 
+      double g() const
+      {}
+    };
+
+
+    int main()
+
+    {
+      //formats bools as true / false
+      std::cout << std::boolalpha << std::is_same_v<Args<decltype(&f)>, Wrap<int, double>> << std::endl;
+      std::cout << std::boolalpha << std::is_same_v<Args<decltype(&A::g)>, Wrap<>> << std::endl;
+    }
+  output: |-
+    true
+    true
+  doc_folder: alias
+  type: alias
+  is_template: true
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+- name: Is
+  namespace: "::Slate::Reflection::"
+  file_name: reflection/reflection.hpp
+  decl: >-
+    template <typename Type1, typename Type2 = void, typename Type3 = void,
+    typename Type4 = void>
+
+    using Is;
+  abstract: User friendly type to inherit all the types needed for reflection
+  template_parameters:
+    - - Type1
+      - The type of class inheriting Is
+    - - Type2
+      - Either a Reflection::Variables container or Reflection::Features
+        container or Reflection::Construct container or void
+    - - Type3
+      - Either Reflection::Features container or Reflection::Construct container
+        or void given that Type2 is not either
+    - - Type4
+      - Reflection::Construct container or void given that Type3 is not either
+  example: >-
+    include <iostream>
+
+    include <reflection/reflection.hpp>
+
+
+    using namespace Slate::Reflection;
+
+
+    class My_Variable
+
+    {
+
+    public:
+      using Variable_Type = int;
+    private:
+      Variable_Type data;
+    public:
+      Variable_Type& Variable() 
+      {
+        return data;
+      }
+      Variable_Type const& Variable() const
+      {
+        return data;
+      }
+    };
+
+
+    template <typename Type>
+
+    class My_Feature
+
+    {};
+
+
+    template <typename Type, typename ... Types>
+
+    class My_Construct
+
+    {};
+
+
+    class Variable_Feature_Construct : public Is<Variable_Feature_Construct, Variables<My_Variable>, Features<My_Feature>, Constructs<My_Construct>>
+
+    {};
+
+
+    class Variable_Feature : public Is<Variable_Feature, Variables<My_Variable>, Features<My_Feature>>
+
+    {};
+
+
+    class Variable_Construct : public Is<Variable_Construct, Variables<My_Variable>, Constructs<My_Construct>>
+
+    {};
+
+
+    class Feature_Construct : public Is<Feature_Construct, Features<My_Feature>, Constructs<My_Construct>>
+
+    {};
+
+
+    class Variable : public Is<Variable, Variables<My_Variable>>
+
+    {};
+
+
+    class Feature : public Is<Feature, Features<My_Feature>>
+
+    {};
+
+
+    class Construct : public Is<Construct, Constructs<My_Construct>>
+
+    {};
+  doc_folder: alias
+  type: alias
+  is_template: true
+- name: V
+  namespace: "::Slate::"
+  file_name: reflection/variables.hpp
+  decl: namespace V;
+  is_namespace_alias: true
+  abstract: alias for the Variables namespace
+  doc_folder: alias
+  type: alias
+  is_template: true
+- name: Behavior
+  decl: template <template <typename> typename Functor> using Behavior;
+  namespace: "::Slate::Memory::"
+  is_doc_complete: false
+  doc_folder: alias
+  type: alias
+  is_template: true
+- name: Dependent_Behavior
+  decl: |-
+    template <typename Type1, typename ... Types>
+    class Behavoirable;
+  doc_folder: alias
+  type: alias
+  is_template: true
+  namespace: "::Slate::Memory::"
+  is_doc_complete: false
+- name: Virtual_Functor
+  decl: |-
+    template <template <typename> typename Functor>
+    using Virtual_Functor;
+  namespace: "::Slate::Memory::"
+  is_doc_complete: false
+  doc_folder: alias
+  type: alias
+  is_template: true
+- name: Id_Type
+  decl: using Id_Type;
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+  is_doc_complete: false
+  doc_folder: alias
+  type: alias
+  is_template: true
+- name: Id
+  decl: using Id;
+  doc_folder: alias
+  type: alias
+  is_template: true
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+  is_doc_complete: false
+- name: Extract_Process
+  decl: |-
+    template <typename Type>
+    using Extract_Process;
+  is_meta_operator: true
+  abstract: Extracts the process type from an item
+  template_parameters:
+    - - Type
+      - the item to extract the process from
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/process.hpp
+  doc_folder: alias
+  type: alias
+  is_template: true
+- name: Extract_Variable
+  decl: |-
+    template <typename Type>
+    using Extract_Variable;
+  is_meta_operator: true
+  abstract: Extracts the variable Type from an item
+  template_parameters:
+    - - Type
+      - the item to extract the variable from
+  doc_folder: alias
+  type: alias
+  is_template: true
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/process.hpp
+- name: Item
+  decl: |-
+    template <typename ... Types>
+    using Item;
+  abstract: Helper type for picking between complex or simple item
+  template_parameters:
+    - - Types
+      - either at 1 Meta::Wrap containers for complex item or a process and
+        variable type for simple item
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/process.hpp
+  doc_folder: alias
+  type: alias
+  is_template: true
+- name: Wrap
+  decl: |-
+    template <typename ... Types>
+    class Wrap;
+  is_container: true
+  abstract: The general meta container type
+  template_parameters:
+    - - Types
+      - any number of types
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Extract
+  decl: |-
+    template <typename Type_, std::size_t Index>
+    class Extract;
+  is_meta_operator: true
+  abstract: The general extraction meta operator type
+  template_parameters:
+    - - Type
+      - Meta::Wrap container to extract from
+    - - Index
+      - the index to extract from
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_template: true
+  is_variable: false
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+- name: Variables
+  decl: |-
+    template <typename ... Types>
+    class Variables;
+  is_container: true
+  abstract: A meta container for variable types
+  template_parameters:
+    - - Types
+      - any number of variable types
+  file_name: reflection/reflection.hpp
+  namespace: "::Slate::Reflection::"
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Features
+  decl: |-
+    template <template <typename> typename ... Types>
+    class Features;
+  is_container: true
+  abstract: A meta container for feature types
+  template_parameters:
+    - - Types
+      - any number of feature types
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  file_name: reflection/reflection.hpp
+  namespace: "::Slate::Reflection::"
+- name: Constructs
+  decl: |-
+    template <template <typename, typename...> typename ... Types>
+    class Constructs;
+  is_container: true
+  abstract: A meta container for construct types
+  template_parameters:
+    - - Types
+      - any number of construct types
+  file_name: reflection/reflection.hpp
+  namespace: "::Slate::Reflection::"
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Base
+  type: class
+  decl: |-
+    template <typename Type>
+    class Base;
+  is_variable: true
+  file_name: reflection/variables.hpp
+  namespace: "::Slate::Variables::"
+  abstract: A helper class for defining variable types
+  template_parameters: TODO maybe this needs to be constrained further - [Type, any type]
+  aliases:
+    - name: Variable_Type
+      type: alias
+      doc_folder: alias
+      decl: using Variable_Type;
+      file_name: reflection/variables.hpp
+      namespace: "::Slate::Variables::Base::"
+  functions:
+    - name: Constructor
+      type: function
+      doc_file_name: ctor
+      doc_folder: function
+      decl: |-
+        template <typename _Type>
+        Base(_Type&& data);
+
+        Base();
+
+        Base(Base<Type> const& b);
+
+        Base(Base<Type>&& b);
+      file_name: reflection/variables.hpp
+      namespace: "::Slate::Variables::Base::"
+    - name: operator=
+      doc_file_name: assignment_operator
+      doc_folder: function
+      type: function
+      decl: |-
+        Base<Type>& operator=(Base<Type> const& b);
+        Base<Type>& operator=(Base<Type>&& b);
+      file_name: reflection/variables.hpp
+      namespace: "::Slate::Variables::Base::"
+    - name: Variable
+      type: function
+      doc_folder: function
+      decl: |-
+        Variable_Type& Variable();
+        Variable_Type const& Variable() const;
+      file_name: reflection/variables.hpp
+      namespace: "::Slate::Variables::Base::"
+  example: |-
+    include <reflection/variables.hpp>
+
+    namespace My_Variables
+    {
+      using namespace ::Slate::Variables;
+      using My_Int_Variable = class : public Base<int>
+      {
+      public:
+        Variable_Type& My_Int()
+        {
+          return Variable();
+        }
+        Variable_Type const& My_Int() const
+        {
+          return Variable();
+        }
+      };
+    }
+  doc_folder: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+- name: Initializable
+  file_name: reflection/initializable.hpp
+  namespace: "::Slate::"
+  decl: |-
+    template <typename Type, typename ... Types>
+    class Initializable;
+  is_construct: true
+  abstract: Helper construct for initiating components of reflected types
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+    - - Types
+      - typenames of all the components of the reflected class
+  functions:
+    - name: Init_All
+      type: function
+      doc_folder: function
+      decl: |-
+        template <typename ... Args>
+        void Init_All(Args&& ... args);
+      abstract: |-
+        Calls Init on all Types which have Init defined with 
+        the correct arguments given in args...
+      template_parameters:
+        - - Args
+          - the arguments types to initialize with
+      parameters:
+        - - args
+          - the arguments to initialize with
+      file_name: reflection/initializable.hpp
+      namespace: "::Slate::Initializable::"
+  doc_folder: class
+  type: class
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Addable
+  decl: |-
+    template <typename Type>
+    class Addable;
+  abstract: Feature that marks a class as addable allowing +, += (r-value) while only
+    needing to define += (l-value)
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  is_feature: true
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Subtractable
+  decl: |-
+    template <typename Type>
+    class Subtractable;
+  abstract: Feature that marks a class as subtractable allowing -, -= (r-value) while
+    only needing to define -= (l-value)
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: Multipliable
+  decl: |-
+    template <typename Type>
+    class Multipliable;
+  abstract: Feature that marks a class as multipliable allowing *, *= (r-value) while
+    only needing to define *= (l-value)
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  is_feature: true
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Dividable
+  decl: |-
+    template <typename Type>
+    class Dividable;
+  abstract: Feature that marks a class as dividable allowing /, /= (r-value) while only
+    needing to define /= (l-value)
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: Modulable
+  decl: |-
+    template <typename Type>
+    class Modulable;
+  abstract: Feature that marks a class as modulable allowing %, %= (r-value) while only
+    needing to define %= (l-value)
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  is_feature: true
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Comparable
+  decl: |-
+    template <typename Type>
+    class Comparable;
+  abstract: Feature that marks a class as comparable allowing >, ==, !=, <=, >= while
+    only needing to define <
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: Mathematically_Operatorable
+  decl: |-
+    template <typename Type>
+    class Mathematically_Operatorable;
+  abstract: Feature that marks a class as addable, subtractable, multipliable, dividable
+    and comparable
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  is_feature: true
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Stream
+  decl: |-
+    template <template <typename> typename ... FTypes>
+    class Stream;
+  is_container: true
+  file_name: stream/streams.hpp
+  abstract: Helper type to create streams
+  template_parameters:
+    - - FTypes
+      - any number of features types
+  namespace: "::Slate::Streams::"
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Binary_Format
+  decl: |-
+    template <typename Stream>
+    class Binary_Format;
+  is_feature: true
+  file_name: streams/binary_format.hpp
+  abstract: Formatting feature that formats objects into a binary format
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  namespace: "::Slate::Streams::"
+- name: Local
+  decl: |-
+    template <typename Stream>
+    class Local;
+  is_feature: true
+  file_name: streams/local.hpp
+  abstract: IO feature that performs local IO operations on bytes
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+  namespace: "::Slate::Streams::"
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Serializable
+  decl: |-
+    template <typename Type, typename ... Types>
+    class Serializable;
+  is_construct: true
+  file_name: streams/serializable.hpp
+  abstract: Helper construct to mark the reflected class as serializable for formatting
+    features
+  template_parameters:
+    - - Type
+      - typename of the reflected class
+    - - Types
+      - typenames of all the components of the reflected class
+  doc_folder: class
+  type: class
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  namespace: "::Slate::Streams::"
+- name: Behavoirable
+  decl: |-
+    template <typename Type1, typename ... Types>
+    class Behavoirable;
+  is_construct: true
+  file_name: memory/behavoirable.hpp
+  namespace: "::Slate::Memory::"
+  is_doc_complete: false
+  doc_folder: class
+  type: class
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Idable
+  decl: |-
+    template <typename Type>
+    class Idable;
+  is_feature: true
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  is_doc_complete: false
+- name: Statically_Idable
+  decl: |-
+    template <typename Type>
+    class Statically_Idable;
+  is_feature: true
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+  is_doc_complete: false
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Clean_Up
+  decl: |-
+    template <typename Type = void>
+    class Clean_Up;
+  is_feature: true
+  is_polymorphic: true
+  file_name: memory/block.hpp
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  namespace: "::Slate::Memory::"
+  is_doc_complete: false
+- name: Block
+  decl: class Block;
+  is_template: false
+  file_name: memory/block.hpp
+  namespace: "::Slate::Memory::"
+  is_doc_complete: false
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_variable: false
+- name: Complex_Item
+  decl: |-
+    template <typename ... Types>
+    class Complex_Item;
+  abstract: Item type for processes that have multiple input/output processes
+  template_parameters:
+    - - Types
+      - at least one Meta::Wrap container of process and variables pairs
+  example: |-
+    #include <harpoon/process.hpp>
+    using namespace Slate::harpoon;
+    class P0 {};
+    class P1 {};
+    class V0 {};
+    class V1 {};
+
+    using My_Complex_Item = Complex_Item<Wrap<P0, V0>, Wrap<P1, V1>>;
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/Process.hpp
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Simple_Item
+  decl: |-
+    template <typename P, typename V>
+    class Simple_Item;
+  abstract: Item type for processes that have a single input/output processes
+  template_parameters:
+    - - P
+      - the process type
+    - - V
+      - the variable type
+  example: |-
+    #include <harpoon/process.hpp>
+    using namespace Slate::harpoon;
+    class P0 {};
+    class V0 {};
+
+    using My_Simple_Item = Simple_Item<P0, V0>;
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/Process.hpp
+- name: Base_Process
+  decl: class Base_Process;
+  is_polymorphic: true
+  is_abstract: true
+  is_template: false
+  abstract: The abstract base class for all processes
+  functions:
+    - name: Constructor
+      doc_file_name: ctor
+      decl: Base_Process(std::string const& name);
+      abstract: Creates a base process
+      parameters:
+        - - name
+          - the name of the process
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Base_Process::"
+      type: function
+      doc_folder: function
+    - name: Deconstructor
+      doc_file_name: dtor
+      decl: virtual ~Base_Process() = default;
+      abstract: deconstructs the base process
+      modifiers:
+        - virtual
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Base_Process::"
+      type: function
+      doc_folder: function
+    - name: Execute
+      decl: virtual int Execute(std::vector<std::string> const& args) = 0;
+      abstract: Runs the starting code for a process
+      parameters:
+        - - args
+          - the command line arguments
+      modifiers:
+        - pure virtual
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Base_Process::"
+      type: function
+      doc_folder: function
+    - name: Create_Queues
+      decl: virtual void Create_Queues() = 0;
+      abstract: creates the queues needed for the process
+      modifiers:
+        - pure virtual
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Base_Process::"
+      type: function
+      doc_folder: function
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/Process.hpp
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_meta_operator: false
+  is_variable: false
+- name: Queue
+  decl: |-
+    template <typename Type, std::size_t Size_>
+    class Queue;
+  abstract: A thread safe fixed size queue
+  template_parameters:
+    - - Type
+      - any type to be stored in the queue
+    - - Size_
+      - the amount of elements can be in the queue
+  functions:
+    - name: Constructor
+      doc_file_name: ctor
+      doc_folder: function
+      type: function
+      decl: Queue();
+      abstract: creates the queue
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Queue::"
+    - name: Push
+      type: function
+      doc_folder: function
+      decl: |-
+        template <typename T>
+        void Push(T&& t);
+      is_template: true
+      abstract: Pushes an element into the back of the queue
+      template_parameters:
+        - - T
+          - any type convertible to Type
+      parameters:
+        - - t
+          - the object to be pushed into the queue
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Queue::"
+    - name: Pop
+      type: function
+      doc_folder: function
+      decl: Type& Pop();
+      is_template: false
+      abstract: Removes and element from the front and returns it
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Queue::"
+    - name: Size
+      type: function
+      doc_folder: function
+      decl: std::size_t Size()
+      abstract: returns the number of elements in the queue
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Queue::"
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/Process.hpp
+- name: Buffer
+  decl: |-
+    template <typename Input, typename Output, std::size_t Size>
+    class Buffer;
+
+    template <typename Output, std::size_t Size>
+    class Buffer<void, Output, Size>;
+
+    template <typename Input, std::size_t Size>
+    class Buffer<Input, void, Size>;
+  abstract: A helper type for linking queues together
+  template_parameters:
+    - - Input
+      - the type of the input queue can be void to have no input queue
+    - - Output
+      - the type of the output queue can be void to have no output queue
+    - - Size
+      - the size of the queues
+  functions:
+    - name: Constructor
+      doc_file_name: ctor
+      decl: |-
+        Buffer(Queue<Input, Size>& input, Queue<Output, Size>& output);
+
+        Buffer(Queue<Input, Size>& input);
+
+        Buffer(Queue<Output, Size>& output);
+      abstract: Creates the buffer given the queues
+      parameters:
+        - - input
+          - the input queue
+        - - output
+          - the output queue
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Buffer::"
+      type: function
+      doc_folder: function
+    - name: operator()
+      doc_file_name: operator_function
+      decl: |-
+        template <typename Functor>
+        void operator()(Functor&& f)
+      abstract: Applies a function to an input element and pushes it to a output
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Buffer::"
+      type: function
+      doc_folder: function
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/Process.hpp
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_feature: false
+  is_polymorphic: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+- name: Process
+  decl: |-
+    template <typename Type>
+    class Process;
+  is_polymorphic: true
+  is_feature: true
+  abstract: Helper feature for most process classes
+  template_parameters:
+    - - Type
+      - the typename of the reflected class
+  functions:
+    - name: Constructor
+      doc_file_name: ctor
+      decl: Process(std::string const& name);
+      abstract: Create the process object
+      parameters:
+        - - name
+          - the name of the process
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Process::"
+      type: function
+      doc_folder: function
+    - name: Active
+      decl: bool Active() const;
+      abstract: returns wether the process is active
+      modifiers:
+        - const
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Process::"
+      type: function
+      doc_folder: function
+    - name: Execute
+      decl: int Execute(std::vector<std::string> const& args) final;
+      abstract: The start up function for the process
+      modifiers:
+        - final
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Process::"
+      type: function
+      doc_folder: function
+    - name: Create_Queues
+      decl: void Create_Queues() final;
+      abstract: Creates the queues used by this process
+      modifiers:
+        - final
+      postcondition: The queues will be created
+      file_name: harpoon/Process.hpp
+      namespace: "::Slate::Harpoon::Process::"
+      type: function
+      doc_folder: function
+  doc_folder: class
+  type: class
+  is_construct: false
+  is_container: false
+  is_meta_operator: false
+  is_template: true
+  is_variable: false
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/Process.hpp
+- name: Cast
+  decl: >-
+    template <typename Convert, typename Type>
+
+    Convert& Cast(Type& t);
+
+
+    template <typename Convert, typename ... Steps, typename Type>
+
+    auto Cast(Type& t) -> std::enable_if_t<sizeof...(Steps) != 0, Convert&>;
+
+
+    template <typename Convert, typename Type>
+
+    Convert const& Cast(Type const& t);
+
+
+    template <typename Convert, typename ... Steps, typename Type>
+
+    auto Cast(Type const& t) -> std::enable_if_t<sizeof...(Steps) != 0, Convert const&>;
+  file_name: meta/meta.hpp
+  namespace: "::Slate::Meta::"
+  abstract: Helper function for converting reflected types to there components and
+    vice-versa
+  template_parameters:
+    - - Convert
+      - the type to be converted to
+    - - Steps
+      - any number of types that have to be converted to first to be able to
+        convert to Convert
+    - - Type
+      - the starting type to convert from
+  parameters:
+    - - t
+      - the object to be converted
+  example: |-
+    #include <meta/meta.hpp>
+    #include <reflection/reflection.hpp>
+    #include <reflection/variables.hpp>
+
+    using Slate::Meta::Cast;
+    using namespace Slate::Reflection;
+
+    template <typename Type>
+    class F0 {};
+
+    using V0 = Slate::Variables::Base<int>;
+
+    class My_Class : public Is<My_Class, Variables<V0>, Features<F0>> {};
+
+    //This code assumes that F0<Type> is actually a Type in 
+    //the original scope and that Type also has V0 as a variable
+    template <typename Type>
+    int f(F0<Type> const& f)
+    {
+      return Cast<V0, Type>(f).Variable();
+    }
+
+    int main()
+    {
+      My_Class c;
+      return f(c);
+    }
+  is_template: true
+  doc_folder: function
+  type: function
+- name: operator>
+  doc_file_name: operator_gt
+  decl: >-
+    template <typename Type>
+
+    auto operator>(Type const& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Comparable<Type>, Type>, bool>;
+  abstract: defines the > operator for a type if it is comparable
+  template_parameters:
+    - - Type
+      - a comparable type
+  parameters:
+    - - obj1
+      - left hand side of the greater than sign
+    - - obj2
+      - right hand side of the greater than sign
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator==
+  doc_file_name: operator_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator==(Type const& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Comparable<Type>, Type>, bool>;
+  abstract: defines the == operator for a type if it is comparable
+  template_parameters:
+    - - Type
+      - a comparable type
+  parameters:
+    - - obj1
+      - left hand side of the equal sign
+    - - obj2
+      - right hand side of the equal sign
+  doc_folder: function
+  type: function
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: operator!=
+  doc_file_name: operator_neq
+  decl: >-
+    template <typename Type>
+
+    auto operator!=(Type const& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Comparable<Type>, Type>, bool>;
+  abstract: defines the != operator for a type if it is comparable
+  template_parameters:
+    - - Type
+      - a comparable type
+  parameters:
+    - - obj1
+      - left hand side of the not equal sign
+    - - obj2
+      - right hand side of the not equal sign
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator<=
+  doc_file_name: operator_lt_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator<=(Type const& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Comparable<Type>, Type>, bool>;
+  abstract: defines the <= operator for a type if it is comparable
+  template_parameters:
+    - - Type
+      - a comparable type
+  parameters:
+    - - obj1
+      - left hand side of the less than or equal to sign
+    - - obj2
+      - right hand side of the less than or equal to sign
+  doc_folder: function
+  type: function
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: operator>=
+  doc_file_name: operator_gt_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator>=(Type const& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Comparable<Type>, Type>, bool>;
+  abstract: defines the >= operator for a type if it is comparable
+  template_parameters:
+    - - Type
+      - a comparable type
+  parameters:
+    - - obj1
+      - left hand side of the greater than or equal to sign
+    - - obj2
+      - right hand side of the greater than or equal to sign
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator+=
+  doc_file_name: operator_plus_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator+=(Type&& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Addable<std::remove_reference_t<Type>>, std::remove_reference_t<Type>>, Type&&>;
+  abstract: defines the += operator for a type if it is addable
+  template_parameters:
+    - - Type
+      - an addable type
+  parameters:
+    - - obj1
+      - left hand side of the plus equals
+    - - obj2
+      - right hand side of the plus equals
+  doc_folder: function
+  type: function
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: operator-=
+  doc_file_name: operator_minus_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator-=(Type&& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Subtractable<std::remove_reference_t<Type>>, std::remove_reference_t<Type>>, Type&&>;
+  abstract: defines the -= operator for a type if it is substractable
+  template_parameters:
+    - - Type
+      - a substractable type
+  parameters:
+    - - obj1
+      - left hand side of the minus equals
+    - - obj2
+      - right hand side of the minus equals
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator*=
+  doc_file_name: operator_mult_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator*=(Type&& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Multipliable<std::remove_reference_t<Type>>, std::remove_reference_t<Type>>, Type&&>;
+  abstract: defines the *= operator for a type if it is multipliable
+  template_parameters:
+    - - Type
+      - a multipliable type
+  parameters:
+    - - obj1
+      - left hand side of the times equals
+    - - obj2
+      - right hand side of the times equals
+  doc_folder: function
+  type: function
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: operator/=
+  doc_file_name: operator_div_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator/=(Type&& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Dividable<std::remove_reference_t<Type>>, std::remove_reference_t<Type>>, Type&&>;
+  abstract: Defines the /= operator for a type if it is dividable
+  template_parameters:
+    - - Type
+      - a dividable type
+  parameters:
+    - - obj1
+      - left hand side of the divide equals
+    - - obj2
+      - right hand side of the divide equals
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator%=
+  doc_file_name: operator_mod_eq
+  decl: >-
+    template <typename Type>
+
+    auto operator%=(Type&& obj1, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Modulable<std::remove_reference_t<Type>>, std::remove_reference_t<Type>>, Type&&>;
+  abstract: Defines the %= operator for a type if it is modulable
+  template_parameters:
+    - - Type
+      - a modulable type
+  parameters:
+    - - obj1
+      - left hand side of the modulo equals
+    - - obj2
+      - right hand side of the modulo equals
+  doc_folder: function
+  type: function
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: operator+
+  doc_file_name: operator_plus
+  decl: >-
+    template <typename Type>
+
+    auto operator+(Type obj, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Addable<Type>, Type>, Type>;
+  abstract: Defines the + operator for a type if it is Addable
+  template_parameters:
+    - - Type
+      - an addable type
+  parameters:
+    - - obj1
+      - left hand side of the plus sign
+    - - obj2
+      - right hand side of the plus sign
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator-
+  doc_file_name: operator_minus
+  decl: >-
+    template <typename Type>
+
+    auto operator-(Type obj, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Subtractable<Type>, Type>, Type>;
+  abstract: Defines the - operator for a type if it is subtractable
+  template_parameters:
+    - - Type
+      - a subtractable type
+  parameters:
+    - - obj1
+      - left hand side of the minus sign
+    - - obj2
+      - right hand side of the minus sign
+  doc_folder: function
+  type: function
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: operator*
+  doc_file_name: operator_mult
+  decl: >-
+    template <typename Type>
+
+    auto operator*(Type obj, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Multipliable<Type>, Type>, Type>;
+  abstract: Defines the * operator for a type if it is multipliable
+  template_parameters:
+    - - Type
+      - a multipliable type
+  parameters:
+    - - obj1
+      - left hand side of the times sign
+    - - obj2
+      - right hand side of the times sign
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator/
+  doc_file_name: operator_div
+  decl: >-
+    template <typename Type>
+
+    auto operator/(Type obj, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Dividable<Type>, Type>, Type>;
+  abstract: Defines the / operator for a type if it is dividable
+  template_parameters:
+    - - Type
+      - a dividable type
+  parameters:
+    - - obj1
+      - left hand side of the divide sign
+    - - obj2
+      - right hand side of the divide sign
+  doc_folder: function
+  type: function
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+- name: operator%
+  doc_file_name: operator_mod
+  decl: >-
+    template <typename Type>
+
+    auto operator%(Type obj, Type const& obj2) -> std::enable_if_t<std::is_base_of_v<Modulable<Type>, Type>, Type>;
+  abstract: Defines the % operator for a type if it is modulable
+  template_parameters:
+    - - Type
+      - a modulable type
+  parameters:
+    - - obj1
+      - left hand side of the modulo sign
+    - - obj2
+      - right hand side of the modulo sign
+  file_name: reflection/operator_helper.hpp
+  namespace: "::Slate::Operators::"
+  doc_folder: function
+  type: function
+- name: operator<
+  doc_file_name: operator_lt_static_id_static_id
+  decl: >-
+    template <typename Type1, typename Type2>
+
+    bool operator<(Statically_Idable<Type1> const& idable1, Statically_Idable<Type2> const& idable2);
+  abstract: defines the less than operator for two statically_idable types
+  template_parameters:
+    - - Type1
+      - a Statically_Idable type
+    - - Type2
+      - a Statically_Idable type
+  parameters:
+    - - idable1
+      - a Statically_Idable object
+    - - idable2
+      - a Statically_Idable object
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+  doc_folder: function
+  type: function
+- name: operator<
+  doc_file_name: operator_lt_id_id
+  decl: |-
+    template <typename Type1, typename Type2>
+    bool operator<(Idable<Type1> const& idable1, Idable<Type2> const& idable2);
+  abstract: Defines the less than operator for two idable types
+  template_parameters:
+    - - Type1
+      - a Idable type
+    - - Type2
+      - a Idable type
+  parameters:
+    - - idable1
+      - a Idable object
+    - - idable2
+      - a Idable object
+  doc_folder: function
+  type: function
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+- name: Make_Virtual_Functor
+  decl: >-
+    template <template <typename> typename Functor, typename Type, typename ...
+    Args>
+
+    Virtual_Functor<Functor> Make_Virtual_Functor(Args&& ... args);
+  abstract: Creates a virtual functor
+  template_parameters:
+    - - Functor
+      - TODO
+    - - Type
+      - TODO
+    - - Args
+      - TODO
+  namespace: "::Slate::Memory::"
+  file_name: memory/block.hpp
+  doc_folder: function
+  type: function
+- name: main
+  decl: int main(int argc, char** argv);
+  is_template: false
+  abstract: The main function of the program where harpoon starts up
+  parameters:
+    - - argc
+      - the command line argument count
+    - - argv
+      - the command line argument values
+  namespace: "::"
+  file_name: cpp
+  doc_folder: function
+  type: function
+- name: Concept
+  is_inline: true
+  fully_qualified_name: ::Slate::Concept
+  doc_folder: namespace
+  type: namespace
+- name: Meta
+  is_inline: false
+  fully_qualified_name: ::Slate::Meta
+  doc_folder: namespace
+  type: namespace
+- name: Reflection
+  is_inline: true
+  fully_qualified_name: ::Slate::Reflection
+  doc_folder: namespace
+  type: namespace
+- name: Variables
+  is_inline: false
+  fully_qualified_name: ::Slate::Variables
+  doc_folder: namespace
+  type: namespace
+- name: Operator
+  is_inline: false
+  fully_qualified_name: ::Slate::Operator
+  doc_folder: namespace
+  type: namespace
+- name: Streams
+  is_inline: false
+  fully_qualified_name: ::Slate::Stream
+  doc_folder: namespace
+  type: namespace
+- name: Memory
+  is_inline: false
+  fully_qualified_name: ::Slate::Memory
+  doc_folder: namespace
+  type: namespace
+- name: Harpoon
+  is_inline: false
+  fully_qualified_name: ::Slate::Harpoon
+  doc_folder: namespace
+  type: namespace
+- name: Satisfies
+  decl: |-
+    template <typename Type, typename ... Args>
+    constexpr bool Satisfies;
+  abstract: Returns the value of if the Args pass the test in Type
+  template_parameters:
+    - - Type
+      - a type which contains a static Test function to test
+    - - Args
+      - any number of args to pass to the Test function
+  namespace: "::Slate::Concept::"
+  file_name: concept/concept.hpp
+  doc_folder: variable
+  type: variable
+  linkage:
+    &a1
+    - constexpr
+  is_template: true
+- name: Is_Functor
+  decl: |-
+    template <typename Type, typename ... Args>
+    constexpr bool Is_Functor;
+  abstract: Tests whether Type is a functor which takes Args as function parameters
+  template_parameters:
+    - - Type
+      - the functor type
+    - - Args
+      - any number of arguments to the functor
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+  namespace: "::Slate::Concept::"
+  file_name: concept/concept.hpp
+- name: Has_Function
+  decl: |-
+    template <typename Type, typename Function, typename ... Args>
+    constexpr bool Has_Function;
+  abstract: Tests whether Type has a function described by Function which takes Args as
+    function parameters
+  template_parameters:
+    - - Type
+      - any type
+    - - Function
+      - a type which describes the function to test
+    - - Args
+      - any number of arguments to the function
+  namespace: "::Slate::Concept::"
+  file_name: concept/concept.hpp
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+- name: Is_Container
+  decl: |-
+    template <typename Type>
+    constexpr bool Is_Container;
+  abstract: Test wether Type is a meta container
+  template_parameters:
+    - - Type
+      - the type to test
+  namespace: "::Slate::Meta::"
+  file_name: meta/meta.hpp
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+- name: Has_Behaviors
+  file_name: memory/behavoirable.hpp
+  decl: |-
+    template <typename Type>
+    constexpr bool Has_Behaviors;
+  abstract: Tests if Type has Behaviors defined
+  template_parameters:
+    - - Type
+      - any type
+  namespace: "::Slate::Concept::"
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+- name: Has_Arguments
+  file_name: memory/block.hpp
+  decl: |-
+    template <typename Type>
+    constexpr bool Has_Arguments;
+  abstract: Tests if Type has any arguments
+  template_parameters:
+    - - Type
+      - any type
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+  namespace: "::Slate::Concept::"
+- name: Has_All_Behaviors
+  file_name: memory/block.hpp
+  decl: |-
+    template <typename Type>
+    constexpr Has_All_Behaviors;
+  abstract: Tests if Type has All_Behaviors defined
+  template_parameters:
+    - - Type
+      - any type
+  namespace: "::Slate::Concept::"
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+- name: push_mutex
+  decl: |-
+    template <typename Type>
+    std::mutex push_mutex;
+  abstract: mutex for push operations in thread safe queues
+  template_parameters:
+    - - Type
+      - any type
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/process.hpp
+  linkage: null
+  doc_folder: variable
+  type: variable
+  is_template: true
+- name: pop_mutex
+  decl: |-
+    template <typename Type>
+    std::mutex pop_mutex;
+  abstract: mutex for pop operations in thread safe queues
+  template_parameters:
+    - - Type
+      - any type
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/process.hpp
+- name: push_cv
+  decl: |-
+    template <typename Type>
+    std::condition_variable push_cv;
+  abstract: condition_variable for push operations in thread safe queues
+  template_parameters:
+    - - Type
+      - any type
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/process.hpp
+  linkage: null
+  doc_folder: variable
+  type: variable
+  is_template: true
+- name: pop_cv
+  decl: |-
+    template <typename Type>
+    std::condition_variable pop_cv;
+  abstract: condition_variable for pop operations in thread safe queues
+  template_parameters:
+    - - Type
+      - any type
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+  namespace: "::Slate::Harpoon::"
+  file_name: harpoon/process.hpp
+- name: Is_Variable
+  namespace: "::Slate::Reflection::"
+  file_name: reflection/reflection.hpp
+  decl: |-
+    template <typename Type>
+    constexpr bool Is_Variable;
+  abstract: Tests if Type is a variable type
+  template_parameters:
+    - - Type
+      - any type
+  doc_folder: variable
+  type: variable
+  linkage: *a1
+  is_template: true
+- name: object_id_count
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+  linkage:
+    - extern
+  is_template: false
+  decl: int object_id_count;
+  abstract: global variable to get unique ids for Idable Types
+  doc_folder: variable
+  type: variable

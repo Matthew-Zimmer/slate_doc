@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Unwrap_At Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: meta/meta.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Meta::Unwrap_At</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Type, std::size_t Index&gt;
+    using Unwrap_At;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Extracts the Index'th element of a meta container
+            </div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;iostream&gt;
+    include &lt;meta/meta.hpp&gt;
+    
+    using Slate::Meta::Wrap;
+    using Slate::Meta::Unwrap_At;
+    
+    int main()
+    {
+      //formats bools as true / false
+      std::cout &lt;&lt; std::boolalpha &lt;&lt; std::is_same_v&lt;Unwrap_At&lt;Wrap&lt;int, double&gt;, 2&gt;, double&gt; &lt;&lt; std::endl;
+    }
+            </code></pre>
+        </div>
+        <br>
+        <div>
+            <p>Output</p>
+            <pre><code class="language-c++">
+    true
+            </code></pre>
+        </div>
+    </body>
+</html>

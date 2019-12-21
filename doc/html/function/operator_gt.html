@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Function operator&gt; Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: reflection/operator_helper.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Operators::operator&gt;</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Type&gt;
+    auto operator&gt;(Type const& obj1, Type const& obj2) -&gt; std::enable_if_t&lt;std::is_base_of_v&lt;Comparable&lt;Type&gt;, Type&gt;, bool&gt;;
+            </code></pre>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                defines the &gt; operator for a type if it is comparable
+            </div>
+        </div>
+        <div>
+            <p>Preconditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <p>Post Conditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <div>obj1 - left hand side of the greater than sign</div>
+            <div>obj2 - right hand side of the greater than sign</div>
+        </div>
+    </body>
+</html>

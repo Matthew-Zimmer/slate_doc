@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Convert Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: meta/meta.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Meta::Convert</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Type, template &lt;typename...&gt; typename Container = Slate::Meta::Wrap&gt;
+    using Convert;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Converts a container of types from C1 to C2
+            </div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;iostream&gt;
+    include &lt;meta/meta.hpp&gt;
+    
+    using Slate::Meta::Wrap;
+    using Slate::Meta::Convert;
+    
+    template &lt;typename ... Types&gt;
+    class My_Container 
+    {};
+    
+    int main()
+    {
+      //formats bools as true / false
+      std::cout &lt;&lt; std::boolalpha &lt;&lt; std::is_same_v&lt;Convert&lt;Wrap&lt;int, double&gt;, My_Container&gt;, My_Container&lt;int, double&gt;&gt; &lt;&lt; std::endl;
+    }
+            </code></pre>
+        </div>
+        <br>
+        <div>
+            <p>Output</p>
+            <pre><code class="language-c++">
+    true
+            </code></pre>
+        </div>
+    </body>
+</html>

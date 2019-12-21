@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Join Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: meta/meta.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Meta::Join</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename ... Types&gt;
+    using Join;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Joins meta containers together
+            </div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;iostream&gt;
+    include &lt;meta/meta.hpp&gt;
+    
+    using Slate::Meta::Wrap;
+    using Slate::Meta::Join;
+    
+    int main()
+    {
+      //formats bools as true / false
+      std::cout &lt;&lt; std::boolalpha &lt;&lt; std::is_same_v&lt;Join&lt;Wrap&lt;int&gt;, Wrap&lt;double&gt;&gt;, Wrap&lt;int, double&gt;&gt; &lt;&lt; std::endl;
+    }
+            </code></pre>
+        </div>
+        <br>
+        <div>
+            <p>Output</p>
+            <pre><code class="language-c++">
+    true
+            </code></pre>
+        </div>
+    </body>
+</html>

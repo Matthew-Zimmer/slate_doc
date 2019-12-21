@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Function Init_All Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: reflection/initializable.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Initializable::Init_All</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename ... Args&gt;
+    void Init_All(Args&& ... args);
+            </code></pre>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Calls Init on all Types which have Init defined with 
+the correct arguments given in args...
+            </div>
+        </div>
+        <div>
+            <p>Preconditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <p>Post Conditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <div>args - the arguments to initialize with</div>
+        </div>
+    </body>
+</html>

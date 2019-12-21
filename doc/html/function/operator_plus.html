@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Function operator+ Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: reflection/operator_helper.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Operators::operator+</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Type&gt;
+    auto operator+(Type obj, Type const& obj2) -&gt; std::enable_if_t&lt;std::is_base_of_v&lt;Addable&lt;Type&gt;, Type&gt;, Type&gt;;
+            </code></pre>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Defines the + operator for a type if it is Addable
+            </div>
+        </div>
+        <div>
+            <p>Preconditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <p>Post Conditions</p>
+            <div>
+                None
+            </div>
+        </div>
+        <div>
+            <div>obj1 - left hand side of the plus sign</div>
+            <div>obj2 - right hand side of the plus sign</div>
+        </div>
+    </body>
+</html>

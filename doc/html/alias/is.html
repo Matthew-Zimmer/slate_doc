@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Is Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: reflection/reflection.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Reflection::Is</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Type1, typename Type2 = void, typename Type3 = void, typename Type4 = void&gt;
+    using Is;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                User friendly type to inherit all the types needed for reflection
+            </div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;iostream&gt;
+    include &lt;reflection/reflection.hpp&gt;
+    
+    using namespace Slate::Reflection;
+    
+    class My_Variable
+    {
+    public:
+      using Variable_Type = int;
+    private:
+      Variable_Type data;
+    public:
+      Variable_Type& Variable() 
+      {
+        return data;
+      }
+      Variable_Type const& Variable() const
+      {
+        return data;
+      }
+    };
+    
+    template &lt;typename Type&gt;
+    class My_Feature
+    {};
+    
+    template &lt;typename Type, typename ... Types&gt;
+    class My_Construct
+    {};
+    
+    class Variable_Feature_Construct : public Is&lt;Variable_Feature_Construct, Variables&lt;My_Variable&gt;, Features&lt;My_Feature&gt;, Constructs&lt;My_Construct&gt;&gt;
+    {};
+    
+    class Variable_Feature : public Is&lt;Variable_Feature, Variables&lt;My_Variable&gt;, Features&lt;My_Feature&gt;&gt;
+    {};
+    
+    class Variable_Construct : public Is&lt;Variable_Construct, Variables&lt;My_Variable&gt;, Constructs&lt;My_Construct&gt;&gt;
+    {};
+    
+    class Feature_Construct : public Is&lt;Feature_Construct, Features&lt;My_Feature&gt;, Constructs&lt;My_Construct&gt;&gt;
+    {};
+    
+    class Variable : public Is&lt;Variable, Variables&lt;My_Variable&gt;&gt;
+    {};
+    
+    class Feature : public Is&lt;Feature, Features&lt;My_Feature&gt;&gt;
+    {};
+    
+    class Construct : public Is&lt;Construct, Constructs&lt;My_Construct&gt;&gt;
+    {};
+            </code></pre>
+        </div>
+    </body>
+</html>

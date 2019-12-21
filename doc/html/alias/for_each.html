@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class For_Each Documentation</title>
+        <meta lang="en">
+    </head>
+    <body>
+        <div>
+            <p>Include File: meta/meta.hpp</p>
+        </div>
+        <div>
+            <p>Fully Qualified Name: ::Slate::Meta::For_Each</p>
+        </div>
+        <div>
+            <p>Declaration</p>
+            <pre><code class="language-c++">
+    template &lt;typename Container, template &lt;typename&gt; typename Operation&gt;
+    using For_Each;
+            </code></pre>
+        </div>
+        <div>
+            <div>is_template: true</div>
+        </div>
+        <div>
+            <p>Abstract</p>
+            <div>
+                Will apply Operation on each element in Container and result in the the new container
+            </div>
+        </div>
+        <br>
+        <div>
+            <p>Example</p>
+            <pre><code class="language-c++">
+    include &lt;iostream&gt;
+    include &lt;meta/meta.hpp&gt;
+    
+    using Slate::Meta::Wrap;
+    using Slate::Meta::Use_If;
+    using Slate::Meta::For_Each;
+    
+    template &lt;typename Type_&gt;
+    class My_Operation
+    {
+    public:
+      //                 It is important to wrap the Type \/
+      using Type = Use_If&lt;std::is_fundamental_v&lt;Type_&gt;, Wrap&lt;Type_&gt;&gt;;
+    }
+    
+    class A
+    {};
+    
+    int main()
+    {
+      //formats bools as true / false
+      std::cout &lt;&lt; std::boolalpha &lt;&lt; std::is_same_v&lt;For_Each&lt;Wrap&lt;int, double, A&gt;, My_Operation&gt;, Wrap&lt;int, double&gt;&gt; &lt;&lt; std::endl;
+    }
+            </code></pre>
+        </div>
+        <br>
+        <div>
+            <p>Output</p>
+            <pre><code class="language-c++">
+    true
+            </code></pre>
+        </div>
+    </body>
+</html>
