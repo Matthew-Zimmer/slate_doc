@@ -544,48 +544,17 @@
   namespace: "::Slate::"
   file_name: memory/idable.hpp
   is_doc_complete: false
-- name: Extract_Process
+- name: Output
   decl: |-
     template <typename Type>
-    using Extract_Process;
-  is_meta_operator: true
-  abstract: Extracts the process type from an item
-  template_parameters:
-    - - Type
-      - the item to extract the process from
-  namespace: "::Slate::Harpoon::"
-  file_name: harpoon/process.hpp
+    using Output;
   doc_folder: alias
   type: alias
   is_template: true
-- name: Extract_Variable
-  decl: |-
-    template <typename Type>
-    using Extract_Variable;
-  is_meta_operator: true
-  abstract: Extracts the variable Type from an item
-  template_parameters:
-    - - Type
-      - the item to extract the variable from
-  doc_folder: alias
-  type: alias
-  is_template: true
-  namespace: "::Slate::Harpoon::"
-  file_name: harpoon/process.hpp
-- name: Item
-  decl: |-
-    template <typename ... Types>
-    using Item;
-  abstract: Helper type for picking between complex or simple item
-  template_parameters:
-    - - Types
-      - either at 1 Meta::Wrap containers for complex item or a process and
-        variable type for simple item
-  namespace: "::Slate::Harpoon::"
-  file_name: harpoon/process.hpp
-  doc_folder: alias
-  type: alias
-  is_template: true
+  namespace: "::Slate::"
+  file_name: memory/idable.hpp
+  abstract: |-
+    Represents the output type from a process in the queues
 - name: Wrap
   decl: |-
     template <typename ... Types>
@@ -1095,62 +1064,56 @@
   is_polymorphic: false
   is_meta_operator: false
   is_variable: false
-- name: Complex_Item
+- name: Item
   decl: |-
-    template <typename ... Types>
-    class Complex_Item;
-  abstract: Item type for processes that have multiple input/output processes
-  template_parameters:
-    - - Types
-      - at least one Meta::Wrap container of process and variables pairs
-  example: |-
-    #include <harpoon/process.hpp>
-    using namespace Slate::harpoon;
-    class P0 {};
-    class P1 {};
-    class V0 {};
-    class V1 {};
+      template <typename Process, typename Variable>
+      class Item;
 
-    using My_Complex_Item = Complex_Item<Wrap<P0, V0>, Wrap<P1, V1>>;
+      template <typename Process>
+      class Item<Process, void>;
+  abstract: A type representing a harpoon process bound variable
+  template_parameters:
+    - - Process
+      - the type of the process which owns the variable
+    - - Variable
+      - the type of the variable
   namespace: "::Slate::Harpoon::"
-  file_name: harpoon/Process.hpp
+  file_name: harpoon/process.hpp
   doc_folder: class
   type: class
-  is_construct: false
-  is_container: false
-  is_feature: false
-  is_polymorphic: false
-  is_meta_operator: false
   is_template: true
-  is_variable: false
-- name: Simple_Item
-  decl: |-
-    template <typename P, typename V>
-    class Simple_Item;
-  abstract: Item type for processes that have a single input/output processes
-  template_parameters:
-    - - P
-      - the process type
-    - - V
-      - the variable type
-  example: |-
-    #include <harpoon/process.hpp>
-    using namespace Slate::harpoon;
-    class P0 {};
-    class V0 {};
+  aliases:
+    - name: Process_Type
+      type: alias
+      doc_folder: alias
+      namespace: '::Slate::Harpoon::'
+      file_name: harpoon/process.hpp
+      decl: |-
+        using Process_Type;
+      abstract: alias to the process type of the item
+      is_template: false
+    - name: Variable_Type
+      type: alias
+      doc_folder: alias
+      namespace: '::Slate::Harpoon::'
+      file_name: harpoon/process.hpp
+      decl: |-
+        using Variable_Type;
+      abstract: alias to the variable type of the item
+      is_template: false
+  functions:
+    - name: Constructor
+      type: function
+      doc_folder: function
+      doc_file_name: ctor
+      namespace: '::Slate::Harpoon::'
+      file_name: harpoon/process.hpp
+      decl: |-
+        Item(Variable const& v);
 
-    using My_Simple_Item = Simple_Item<P0, V0>;
-  doc_folder: class
-  type: class
-  is_construct: false
-  is_container: false
-  is_feature: false
-  is_polymorphic: false
-  is_meta_operator: false
-  is_template: true
-  is_variable: false
-  namespace: "::Slate::Harpoon::"
-  file_name: harpoon/Process.hpp
+        Item(Variable&& v);
+      abstract: |-
+        Constructor for constructing from its variable type
 - name: Base_Process
   decl: class Base_Process;
   is_polymorphic: true
@@ -1165,7 +1128,7 @@
       parameters:
         - - name
           - the name of the process
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Base_Process::"
       type: function
       doc_folder: function
@@ -1175,7 +1138,7 @@
       abstract: deconstructs the base process
       modifiers:
         - virtual
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Base_Process::"
       type: function
       doc_folder: function
@@ -1187,21 +1150,12 @@
           - the command line arguments
       modifiers:
         - pure virtual
-      file_name: harpoon/Process.hpp
-      namespace: "::Slate::Harpoon::Base_Process::"
-      type: function
-      doc_folder: function
-    - name: Create_Queues
-      decl: virtual void Create_Queues() = 0;
-      abstract: creates the queues needed for the process
-      modifiers:
-        - pure virtual
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Base_Process::"
       type: function
       doc_folder: function
   namespace: "::Slate::Harpoon::"
-  file_name: harpoon/Process.hpp
+  file_name: harpoon/process.hpp
   doc_folder: class
   type: class
   is_construct: false
@@ -1226,7 +1180,7 @@
       type: function
       decl: Queue();
       abstract: creates the queue
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Queue::"
     - name: Push
       type: function
@@ -1242,25 +1196,36 @@
       parameters:
         - - t
           - the object to be pushed into the queue
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Queue::"
     - name: Pop
       type: function
       doc_folder: function
-      decl: Type& Pop();
+      decl: Type Pop();
       is_template: false
       abstract: Removes and element from the front and returns it
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Queue::"
     - name: Size
       type: function
       doc_folder: function
       decl: std::size_t Size()
       abstract: returns the number of elements in the queue
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Queue::"
   doc_folder: class
   type: class
+  aliases:
+    - name: Element_Type
+      type: alias
+      doc_folder: alias
+      is_template: false
+      namespace: '::Slate::Harpoon::'
+      file_name: harpoon/process.hpp
+      decl: |-
+        using Element_Type;
+      abstract: |-
+        The underlying type of the queue
   is_construct: false
   is_container: false
   is_feature: false
@@ -1269,7 +1234,7 @@
   is_template: true
   is_variable: false
   namespace: "::Slate::Harpoon::"
-  file_name: harpoon/Process.hpp
+  file_name: harpoon/process.hpp
 - name: Buffer
   decl: |-
     template <typename Input, typename Output, std::size_t Size>
@@ -1292,18 +1257,14 @@
     - name: Constructor
       doc_file_name: ctor
       decl: |-
-        Buffer(Queue<Input, Size>& input, Queue<Output, Size>& output);
-
-        Buffer(Queue<Input, Size>& input);
-
-        Buffer(Queue<Output, Size>& output);
-      abstract: Creates the buffer given the queues
+        Buffer();
+      abstract: Creates the buffer
       parameters:
         - - input
           - the input queue
         - - output
           - the output queue
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Buffer::"
       type: function
       doc_folder: function
@@ -1313,12 +1274,22 @@
         template <typename Functor>
         void operator()(Functor&& f)
       abstract: Applies a function to an input element and pushes it to a output
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Buffer::"
       type: function
       doc_folder: function
+    - name: Queue
+      type: function
+      doc_folder: function
+      file_name: harpoon/process.hpp
+      namespace: '::Slate::Harpoon'
+      decl: |-
+        template <typename Type>
+        Type& Queue();
+      abstract: |-
+        returns the queue used for the buffer
   namespace: "::Slate::Harpoon::"
-  file_name: harpoon/Process.hpp
+  file_name: harpoon/process.hpp
   doc_folder: class
   type: class
   is_construct: false
@@ -1346,7 +1317,7 @@
       parameters:
         - - name
           - the name of the process
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Process::"
       type: function
       doc_folder: function
@@ -1355,7 +1326,7 @@
       abstract: returns wether the process is active
       modifiers:
         - const
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Process::"
       type: function
       doc_folder: function
@@ -1364,17 +1335,7 @@
       abstract: The start up function for the process
       modifiers:
         - final
-      file_name: harpoon/Process.hpp
-      namespace: "::Slate::Harpoon::Process::"
-      type: function
-      doc_folder: function
-    - name: Create_Queues
-      decl: void Create_Queues() final;
-      abstract: Creates the queues used by this process
-      modifiers:
-        - final
-      postcondition: The queues will be created
-      file_name: harpoon/Process.hpp
+      file_name: harpoon/process.hpp
       namespace: "::Slate::Harpoon::Process::"
       type: function
       doc_folder: function
@@ -1386,7 +1347,7 @@
   is_template: true
   is_variable: false
   namespace: "::Slate::Harpoon::"
-  file_name: harpoon/Process.hpp
+  file_name: harpoon/process.hpp
 - name: Cast
   decl: >-
     template <typename Convert, typename Type>
@@ -1959,11 +1920,11 @@
   type: variable
   linkage: *a1
   is_template: true
-- name: push_mutex
+- name: mutex
   decl: |-
     template <typename Type>
     std::mutex push_mutex;
-  abstract: mutex for push operations in thread safe queues
+  abstract: mutex for push and pop operations in thread safe queues
   template_parameters:
     - - Type
       - any type
@@ -1973,17 +1934,18 @@
   doc_folder: variable
   type: variable
   is_template: true
-- name: pop_mutex
+- name: Has_Output_Queue
   decl: |-
     template <typename Type>
-    std::mutex pop_mutex;
-  abstract: mutex for pop operations in thread safe queues
+    constexpr bool Has_Output_Queue;
+  abstract: Tests if type has a output queue
   template_parameters:
     - - Type
       - any type
   doc_folder: variable
   type: variable
-  linkage: *a1
+  linkage: 
+    - constexpr
   is_template: true
   namespace: "::Slate::Harpoon::"
   file_name: harpoon/process.hpp
