@@ -1143,7 +1143,7 @@
       type: function
       doc_folder: function
     - name: Execute
-      decl: virtual int Execute(std::vector<std::string> const& args) = 0;
+      decl: virtual std::thread Execute(std::vector<std::string> const& args) = 0;
       abstract: Runs the starting code for a process
       parameters:
         - - args
@@ -1331,7 +1331,7 @@
       type: function
       doc_folder: function
     - name: Execute
-      decl: int Execute(std::vector<std::string> const& args) final;
+      decl: std::thread Execute(std::vector<std::string> const& args) final;
       abstract: The start up function for the process
       modifiers:
         - final
